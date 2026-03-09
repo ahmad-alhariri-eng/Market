@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f6f9fc; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .header { background: #00BFA6; color: white; padding: 20px; text-align: center; }
+        .content { padding: 30px; line-height: 1.6; }
+        .code-box { background: #f1f5f9; border: 1px dashed #cbd5e1; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; letter-spacing: 2px; margin: 20px 0; border-radius: 6px; color: #0f172a;}
+        .button { display: inline-block; padding: 12px 25px; background: #0f172a; color: white; text-decoration: none; border-radius: 4px; font-weight: bold; }
+        .footer { background: #f8fafc; text-align: center; padding: 15px; font-size: 12px; color: #64748b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>مرحباً {{ customer_name }}!</h2>
+        </div>
+        <div class="content">
+            <p>شكراً لثقتك بنا. بناءً على طلبك رقم <strong>#{{ order_number }}</strong>، يسعدنا تسليم طلبك بنجاح.</p>
+            <p>الخدمة / الاشتراك: <strong>{{ service_name }}</strong></p>
+            
+            <div class="code-box">
+                {{ subscription_code }}
+            </div>
+            
+            <p style="text-align: center;">
+                <a href="{{ download_link }}" class="button">رابط الوصول / التحميل</a>
+            </p>
+        </div>
+        <div class="footer">
+            هذا إيميل تلقائي. إذا واجهتك مشكلة، لا تتردد في الرد للوصول للدعم الفني.
+        </div>
+    </div>
+</body>
+</html>
