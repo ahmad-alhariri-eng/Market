@@ -21,7 +21,17 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Handle unauthorized errors
     }
-    return Promise.reject(error.response?.data || error.message);
+
+    const data = error.response?.data;
+    const message = data?.detail || data?.message || error.message || "An unknown error occurred";
+
+    const enhancedError = new Error(typeof message === "string" ? message : JSON.stringify(message));
+    // Attach original properties so existing catch blocks checking `error.response` still work
+    (enhancedError as any).status = error.response?.status;
+    (enhancedError as any).data = data;
+    (enhancedError as any).response = error.response;
+
+    return Promise.reject(enhancedError);
   }
 );
 

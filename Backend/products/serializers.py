@@ -57,7 +57,7 @@ class BrandCreateSerializer(serializers.ModelSerializer):
 class BrandUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
-        fields = ['name', 'description', 'logo']
+        fields = ['name', 'logo']
 
     def update(self, instance, validated_data):
         for k, v in validated_data.items():
