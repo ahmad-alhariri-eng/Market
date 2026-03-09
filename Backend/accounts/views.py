@@ -207,7 +207,10 @@ class VerifyCodeAPIView(APIView):
         try:
             # 1. استخراج التوكن من الهيدر المخصص
             token = self._extract_token_from_header(request)
-            payload = decode_jwt_token(token)
+            try:
+                payload = decode_jwt_token(token)
+            except Exception:
+                return Response({'error': 'التوكن غير صالح أو منتهي.'}, status=status.HTTP_401_UNAUTHORIZED)
 
             email = payload.get('email')
             role = payload.get('role')
@@ -283,6 +286,9 @@ class VerifyCodeAPIView(APIView):
     def _extract_token_from_header(self, request):
         """استخراج التوكن من هيدر X-Email-Token"""
         token = request.headers.get('X-Email-Token', '').strip()
+        if token.startswith('Bearer '):
+            token = token[7:].strip()
+        
         if not token:
             raise ValidationError('يرجى إرسال التوكن في الهيدر X-Email-Token.')
         return token
@@ -712,7 +718,11 @@ class ResetPasswordView(APIView):
             token = self._extract_token_from_custom_header(request)
 
             # 2. فك التوكن
-            payload = decode_jwt_token(token)
+            try:
+                payload = decode_jwt_token(token)
+            except Exception:
+                return Response({'detail': 'التوكن غير صالح أو منتهي.'}, status=status.HTTP_401_UNAUTHORIZED)
+            
             email = payload.get('email')
             role = payload.get('role')
 
@@ -776,6 +786,9 @@ class ResetPasswordView(APIView):
         استخراج التوكن من هيدر مخصص X-Email-Token
         """
         token = request.headers.get('X-Email-Token', '').strip()
+        if token.startswith('Bearer '):
+            token = token[7:].strip()
+            
         if not token:
             raise ValidationError('يرجى إرسال التوكن في الهيدر X-Email-Token.')
         return token
